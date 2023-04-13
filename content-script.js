@@ -1,5 +1,7 @@
 (function() {
 
+    "use strict";
+
     let o = {
 
         parameters: {
