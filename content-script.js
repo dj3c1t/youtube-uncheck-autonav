@@ -1,47 +1,52 @@
-({
+(function() {
 
-    parameters: {
-        selector: "#player .ytp-autonav-toggle-button[aria-checked=true]",
-        interval: 5000,
-        logPrefix: "[" + chrome.runtime.getManifest().name + "] ",
-    },
+    let o = {
 
-    start: function()
-    {
-        let thisInstance = this;
-        this.log("starting to check every " + this.parameters.interval + "ms");
-        setInterval(
-            function() {
-                thisInstance.checkAutonavToggle();
-            },
-            this.parameters.interval
-        );
-    },
+        parameters: {
+            selector: "#player .ytp-autonav-toggle-button[aria-checked=true]",
+            interval: 5000,
+            logPrefix: "[" + chrome.runtime.getManifest().name + "] ",
+        },
 
-    checkAutonavToggle: function() {
-        let toggle = this.findVisibleAutonavToggle();
-        if(toggle !== null) {
-            this.log("triggering a click on the autonav toggle");
-            toggle.click();
-        }
-    },
+        start: function()
+        {
+            o.log("starting to check every " + o.parameters.interval + "ms");
+            setInterval(
+                function() {
+                    o.checkAutonavToggle();
+                },
+                o.parameters.interval
+            );
+        },
 
-    findVisibleAutonavToggle: function() {
-        let toggles = Array.prototype.slice.call(
-            document.querySelectorAll(this.parameters.selector)
-        ).filter(function(item, index) {
-            // a not so 'cross-browser' way to filter only visible elements
-            // this might not always work
-            return item.offsetParent !== null;
-        });
-        if(toggles.length) {
-            return toggles[0];
-        }
-        return null;
-    },
+        checkAutonavToggle: function() {
+            let toggle = o.findVisibleAutonavToggle();
+            if(toggle !== null) {
+                o.log("triggering a click on the autonav toggle");
+                toggle.click();
+            }
+        },
 
-    log: function(message) {
-        console.log(this.parameters.logPrefix + message);
-    },
+        findVisibleAutonavToggle: function() {
+            let toggles = Array.prototype.slice.call(
+                document.querySelectorAll(o.parameters.selector)
+            ).filter(function(item, index) {
+                // a not so 'cross-browser' way to filter only visible elements
+                // this might not always work
+                return item.offsetParent !== null;
+            });
+            if(toggles.length) {
+                return toggles[0];
+            }
+            return null;
+        },
 
-}).start();
+        log: function(message) {
+            console.log(o.parameters.logPrefix + message);
+        },
+
+    };
+
+    return o;
+
+})().start();
