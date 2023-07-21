@@ -15,10 +15,16 @@
             o.log("starting to check every " + o.parameters.interval + "ms");
             setInterval(
                 function() {
-                    o.checkAutonavToggle();
+                    o.step();
                 },
                 o.parameters.interval
             );
+            o.step();
+        },
+
+        step: function() {
+            o.checkAutonavToggle();
+            o.hideInFeedAds();
         },
 
         checkAutonavToggle: function() {
@@ -27,6 +33,13 @@
                 o.log("triggering a click on the autonav toggle");
                 toggle.click();
             }
+        },
+
+        hideInFeedAds: function() {
+            let ads = document.getElementsByClassName('style-scope ytd-in-feed-ad-layout-renderer');
+            for(let i = 0; i < ads.length; i++) {
+                ads.item(i).style.display = "none";
+            };
         },
 
         findVisibleAutonavToggle: function() {
